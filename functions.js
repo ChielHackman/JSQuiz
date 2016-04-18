@@ -2,7 +2,7 @@ var totalScore = 0;
 var questionNumber = 0;
 var allQuestions = [{
   question: "How do you declare a JavaScript variable?",
-    choices: ["v personName;", "var personName;" , "variable personName;"],
+    choices: ["v personName;", "var personName;" , "variable personName;", "declare personName"],
     correctAnswer: "var personName"
   }, {
     question: "Which operator is used to assign a value to a variable?",
@@ -42,7 +42,7 @@ var allQuestions = [{
     correctAnswer: "Math.round(9.15)"
 }];
 
-var mainContent = $('mainContent');
+var mainContent = $('#mainContent');
 
 function correctGuess (i) {
   totalScore ++;
@@ -54,14 +54,14 @@ function correctGuess (i) {
     ],
     whereToPut = updatePage[0].length -6;
 
-    if(totalScore < 10){
+    if(totalScore < 4){
       var whatToPut = '<button id="nextButton">Next Question</button>';
 
       updatePage = [updatePage.slice(0, whereToPut),whatToPut, updatePage.slice(whereToPut)].join('');
 
       $('#mainContent').html(updatePage);
 
-      $('nextButton').on('click', function() {
+      $('#nextButton').on('click', function() {
         question(questionNumber);
       });
     } else {
@@ -69,14 +69,58 @@ function correctGuess (i) {
 
         updatePage = [updatePage.slice(0, whereToPut), whatToPut, updatePage.slice(whereToPut)].join('');
 
-        $('mainContent').html(updatePage);
+        $('#mainContent').html(updatePage);
 
-        $('restartButton').on('click', function() {
+        $('#restartButton').on('click', function() {
           questionNumber = 0;
           totalScore = 0;
           question(questionNumber);
         });
     }
 
-    $('answerDiv').fadeIn("slow");
+    $('#answerDiv').fadeIn("slow");
 };
+
+function incorrectGuess(i) {
+  totalScore = 0;
+  questionNumber = 0;
+
+  $('#questionDiv').fadeOut("slow");
+
+  var updatePage = ['<div id="answerDiv"></div>' +
+      '<h1>Not correct.</h1>' +
+      '<button id="restartButton">Restart</button>'
+    ];
+
+    $('#mainContent').html(updatePage);
+    $('#answerDiv').fadeIn("slow");
+
+    $('#restartButton').on('click', function() {
+      question(questionNumber);
+    });
+};
+
+function question(i) {
+    $('#questionDiv').fadeOut("slow");
+    mainContent.html('<div id="questionDiv">' +
+        '<h1>Question ' + (i + 1) + '</h1>' +
+        '<h2>' + allQuestions[i].question + '</h2>' +
+        '<input type="radio" name="questionChoices" value="' + allQuestions[i].choices[0] + '" checked="yes">' + allQuestions[i].choices[0] + '</input><br />' +
+        '<input type="radio" name="questionChoices" value="' + allQuestions[i].choices[1] + '">' + allQuestions[i].choices[1] + '</input><br />' +
+        '<input type="radio" name="questionChoices" value="' + allQuestions[i].choices[2] + '">' + allQuestions[i].choices[2] + '</input><br />' +
+        '<input type="radio" name="questionChoices" value="' + allQuestions[i].choices[3] + '">' + allQuestions[i].choices[3] + '</input><br />' +
+        '<button id="submitButton">Submit</button>' +
+        '</div>'
+    );
+    $('#questionDiv').fadeIn("slow");
+
+    $('#submitButton').on('click', function() {
+        if($('input:radio[name=questionChoices]:checked').val() === allQuestions[i].correctAnswer && i < 4) {
+            correctGuess();
+        } else {
+            incorrectGuess();
+        }
+    });
+};
+
+question(questionNumber);
