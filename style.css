@@ -1,0 +1,36 @@
+body {
+  overflow-x: hidden;
+  text-align: center;
+}
+
+#mainContent {
+  padding: 25px;
+  background-image: url('images/background.jpg');
+  background-size: cover;
+  border: 2px solid #ffffff;
+  border-radius: 10px;
+  color: #ffffff;
+  font-weight: bold;
+  box-shadow: 10px 10px 10px #444444;
+}
+
+#questionDiv {
+	display: none;
+}
+
+#answerDiv {
+	display: none;
+}
+
+#footer {
+  height: 40px;
+}
+
+#footer .container {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  text-align: center;
+}
