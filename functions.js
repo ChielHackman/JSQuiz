@@ -3,7 +3,7 @@ var questionNumber = 0;
 var allQuestions = [{
   question: "How do you declare a JavaScript variable?",
     choices: ["v personName;", "var personName;" , "variable personName;", "declare personName"],
-    correctAnswer: "var personName"
+    correctAnswer: "var personName;"
   }, {
     question: "Which operator is used to assign a value to a variable?",
     choices: ["*", "=", "X", "-"],
@@ -18,7 +18,7 @@ var allQuestions = [{
     correctAnswer: "if (x != 7)"
   }, {
     question: "What will the following code return: Boolean(15 > 7)",
-    choices: ["true", "false"],
+    choices: ["true", "false", "undefined", "15"],
     correctAnswer: "true"
   }, {
     question: "How does a WHILE loop start?",
@@ -30,11 +30,11 @@ var allQuestions = [{
     correctAnswer: "for (x = 0; x <= 7; x++)"
   }, {
     question: "How do you create a function in JavaScript?",
-    choices: ["function myFunction()", "function:myFunction()", "function = myFunction()"],
-    correctAnswer: "function myFunction"
+    choices: ["function myFunction()", "function:myFunction()", "function = myFunction()", "function(myFunction)"],
+    correctAnswer: "function myFunction()"
   }, {
     question: "How do you call a function named myFunction?",
-    choices: ["call function myFunction()", "myFunction()", "call myFunction()"],
+    choices: ["call function myFunction()", "myFunction()", "call myFunction()", "function(myFunction)"],
     correctAnswer: "myFunction()"
   }, {
     question: "How do you round the number 9.15, to the nearest integer?",
@@ -49,15 +49,15 @@ function correctGuess (i) {
   questionNumber ++;
 
   var updatePage = ['<div id="answerDiv">' +
-      '<h1>Correct</h1>' +
-      '<h2>Total Score: ' + totalScore + '</h2></div>'
+      '<h2>Correct</h2>' +
+      '<p>Total Score: ' + totalScore + '</p></div>'
     ],
     whereToPut = updatePage[0].length -6;
 
-    if(totalScore < 4){
-      var whatToPut = '<button id="nextButton">Next Question</button>';
+    if(totalScore < 10){
+      var whatToPut = '<button id="nextButton" class="btn btn-success">Next Question</button>';
 
-      updatePage = [updatePage.slice(0, whereToPut),whatToPut, updatePage.slice(whereToPut)].join('');
+      updatePage = [updatePage.slice(0, whereToPut), whatToPut, updatePage.slice(whereToPut)].join('');
 
       $('#mainContent').html(updatePage);
 
@@ -65,7 +65,7 @@ function correctGuess (i) {
         question(questionNumber);
       });
     } else {
-        var whatToPut = '<h1>Yeah you have won the game!</h1<button id="restartButton">Play again</button>';
+        var whatToPut = '<h2>Yeah you won the game!</h2><button id="restartButton" class="btn btn-danger">Play again</button>';
 
         updatePage = [updatePage.slice(0, whereToPut), whatToPut, updatePage.slice(whereToPut)].join('');
 
@@ -88,8 +88,8 @@ function incorrectGuess(i) {
   $('#questionDiv').fadeOut("slow");
 
   var updatePage = ['<div id="answerDiv"></div>' +
-      '<h1>Not correct.</h1>' +
-      '<button id="restartButton">Restart</button>'
+      '<h2>Wrong answer.</h2>' +
+      '<button id="restartButton" class="btn btn-danger">Restart</button>'
     ];
 
     $('#mainContent').html(updatePage);
@@ -103,19 +103,19 @@ function incorrectGuess(i) {
 function question(i) {
     $('#questionDiv').fadeOut("slow");
     mainContent.html('<div id="questionDiv">' +
-        '<h1>Question ' + (i + 1) + '</h1>' +
-        '<h2>' + allQuestions[i].question + '</h2>' +
+        '<h2>Question ' + (i + 1) + '</h2>' +
+        '<h4>' + allQuestions[i].question + '</h4>' +
         '<input type="radio" name="questionChoices" value="' + allQuestions[i].choices[0] + '" checked="yes">' + allQuestions[i].choices[0] + '</input><br />' +
         '<input type="radio" name="questionChoices" value="' + allQuestions[i].choices[1] + '">' + allQuestions[i].choices[1] + '</input><br />' +
         '<input type="radio" name="questionChoices" value="' + allQuestions[i].choices[2] + '">' + allQuestions[i].choices[2] + '</input><br />' +
-        '<input type="radio" name="questionChoices" value="' + allQuestions[i].choices[3] + '">' + allQuestions[i].choices[3] + '</input><br />' +
-        '<button id="submitButton">Submit</button>' +
+        '<input type="radio" name="questionChoices" value="' + allQuestions[i].choices[3] + '">' + allQuestions[i].choices[3] + '</input><br />' + '<br />' +
+        '<button id="submitButton" class="btn btn-success">Check</button>' +
         '</div>'
     );
     $('#questionDiv').fadeIn("slow");
 
     $('#submitButton').on('click', function() {
-        if($('input:radio[name=questionChoices]:checked').val() === allQuestions[i].correctAnswer && i < 4) {
+        if($('input:radio[name=questionChoices]:checked').val() === allQuestions[i].correctAnswer && i < 10) {
             correctGuess();
         } else {
             incorrectGuess();

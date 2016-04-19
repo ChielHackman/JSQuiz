@@ -4,9 +4,8 @@ body {
 }
 
 #mainContent {
+  background-color: #025A78;
   padding: 25px;
-  background-image: url('images/background.jpg');
-  background-size: cover;
   border: 2px solid #ffffff;
   border-radius: 10px;
   color: #000000;
